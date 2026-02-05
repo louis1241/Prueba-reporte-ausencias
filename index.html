@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Ausencias</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    input, button {
+      font-size: 20px;
+      padding: 10px;
+      width: 90%;
+      max-width: 320px;
+      margin: 6px 0;
+    }
+    table {
+      width: 100%;
+      max-width: 400px;
+      margin: auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f2f2f2;
+      text-align: center;
+    }
+    .pantalla {
+      display: none;
+    }
+    .total {
+      font-weight: bold;
+      color: #e67300;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PANTALLA 1 -->
+<div id="login" class="pantalla" style="display:block;">
+  <h2>Consulta de Ausencias</h2>
+  <p>Ingrese su código de trabajador</p>
+
+  <input type="text" id="codigo" placeholder="Código">
+  <button onclick="verDetalle()">Aceptar</button>
+
+  <p id="error" style="color:red;"></p>
+</div>
+
+<!-- PANTALLA 2 -->
+<div id="detalle" class="pantalla">
+  <h2>Detalle de Ausencias</h2>
+  <p><i>Días de ausencias del trabajador</i></p>
+
+  <table>
+    <tr><th>CONCEPTO</th><th>DÍAS</th></tr>
+    <tr><td>Vacaciones</td><td id="d1"></td></tr>
+    <tr><td>Descanso Médico</td><td id="d2"></td></tr>
+    <tr><td>Feriados No Trabajados</td><td id="d3"></td></tr>
+    <tr><td>Permisos</td><td id="d4"></td></tr>
+    <tr><td>Día Libre Pagado</td><td id="d5"></td></tr>
+    <tr><td>Ausencia Injustificada</td><td id="d6"></td></tr>
+    <tr><td>Suspensiones</td><td id="d7"></td></tr>
+    <tr><td>Suspensión Perfecta de Vínculo Laboral</td><td id="d8"></td></tr>
+    <tr class="total"><td>TOTAL DÍAS</td><td id="d9"></td></tr>
+  </table>
+
+  <br>
+  <button onclick="volver()">Cerrar / Volver</button>
+</div>
+
+<script>
+const trabajadores = {
+  "1001": [18,0,0,0,0,0,0,0,18],
+  "1002": [15,2,1,0,0,0,0,0,18],
+  "1003": [20,0,2,1,0,0,0,0,23],
+  "1004": [12,1,0,0,1,0,0,0,14],
+  "1005": [18,0,0,2,0,1,0,0,21],
+  "1006": [14,3,0,0,0,0,0,0,17],
+  "1007": [22,0,1,0,0,0,1,0,24],
+  "1008": [16,0,0,1,0,0,0,0,17],
+  "1009": [10,2,0,0,0,0,0,0,12],
+  "1010": [18,0,2,0,0,0,0,0,20]
+};
+
+function verDetalle() {
+  const codigo = document.getElementById("codigo").value.trim();
+  const error = document.getElementById("error");
+
+  if (!trabajadores[codigo]) {
+    error.innerText = "❌ Código incorrecto";
+    return;
+  }
+
+  for (let i = 1; i <= 9; i++) {
+    document.getElementById("d" + i).innerText = trabajadores[codigo][i - 1];
+  }
+
+  document.getElementById("login").style.display = "none";
+  document.getElementById("detalle").style.display = "block";
+}
+
+function volver() {
+  document.getElementById("codigo").value = "";
+  document.getElementById("error").innerText = "";
+  document.getElementById("detalle").style.display = "none";
+  document.getElementById("login").style.display = "block";
+}
+</script>
+
+</body>
+</html>
